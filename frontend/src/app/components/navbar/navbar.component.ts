@@ -25,14 +25,16 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(UserAction.loadUser({name: this.cookieService.get('name'),userId: +this.cookieService.get('user'), isLoggedIn: true}))
+    if(this.cookieService.check('name')){
+      this.store.dispatch(UserAction.loadUser({name: this.cookieService.get('name'),userId: +this.cookieService.get('user'), isLoggedIn: true}))
+    }
   }
 
   logOut() {
     this.cookieService.delete('name')
     this.cookieService.delete('user')
 
-    this.router.navigate(['/login'])
-    window.location.reload()
+
+    this.router.navigate(['/login']).then( () =>window.location.reload())
   }
 }

@@ -18,10 +18,11 @@ export class TodosListComponent implements OnInit {
   todoText: string = '';
   editMode: boolean = false
   editId?: number
+  isLoggedIn:Observable<boolean>
 
   constructor(private apiService: ApiService, private store:Store<AppState>, private cookieService: CookieService) { 
     this.todos$ = this.store.select(selectTodosList);
-
+    this.isLoggedIn = this.store.select('users', 'isLoggedIn')
   }
 
   ngOnInit(): void {

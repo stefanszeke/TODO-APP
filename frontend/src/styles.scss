@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+.container {
+  border: 1px solid gray;
+  border-radius: 0.3rem;
+  padding: 1rem;
+  color: rgb(37, 37, 37);
+}

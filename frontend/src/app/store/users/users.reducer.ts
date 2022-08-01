@@ -19,6 +19,7 @@ export const usersReducer = createReducer(
   on(UsersActions.loadUser, (state, action) => ({
     ...state,
     name: action.name,
-    userId: action.userId
+    userId: action.userId,
+    isLoggedIn: action.isLoggedIn
   }))
 )
