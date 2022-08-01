@@ -1,0 +1,12 @@
+<nav>
+
+  <h2>{{userName | async}}</h2>
+  <button *ngIf="isLoggedIn" (click)="logOut()">logout</button>
+  <div>
+    <a *ngIf="!isLoggedIn" [routerLink]="'login'">LOGIN</a>
+  </div>
+
+  <div>
+    <a *ngIf="!isLoggedIn" [routerLink]="'todos'">TODOS</a>
+  </div>
+</nav>

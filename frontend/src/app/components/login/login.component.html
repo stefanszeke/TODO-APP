@@ -1,0 +1,13 @@
+<form [formGroup]="loginForm">
+
+  <label for="email">Email</label>
+  <input name="email" formControlName="email">
+
+  <label for="password">Password</label>
+  <input type="password" name="password" formControlName="password">
+
+  <button (click)="login()">login</button>
+
+</form>
+
+<h2>{{message}}</h2>
