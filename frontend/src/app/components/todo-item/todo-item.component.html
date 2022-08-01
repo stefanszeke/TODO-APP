@@ -1,7 +1,12 @@
 
 <div class="item">
-  <button (click)='emitClickCheck()'>{{todo.isDone}}</button>
+
+  <a *ngIf="!todo.isDone" (click)='emitClickCheck()'><fa-icon [icon]="faSquare"></fa-icon></a>
+  <a *ngIf="todo.isDone" (click)='emitClickCheck()'><fa-icon [icon]="faSquareCheck"></fa-icon></a>
+
   <h2>{{todo.text}}</h2>
-  <button (click)='emitClickEdit()'>edit</button>
-  <button (click)='emitClickDelete()'>x</button>
+
+  <button (click)='emitClickEdit()'><fa-icon [icon]="faPen"></fa-icon></button>
+
+  <button (click)='emitClickDelete()'><fa-icon [icon]="faXmark"></fa-icon></button>
 </div>

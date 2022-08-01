@@ -1,11 +1,21 @@
 .item {
   display: grid;
-  grid-template-columns: 10% 1fr 10% 10%;
+  grid-template-columns: 5% 1fr 10% 10%;
+  align-items: center;
+  gap: 0.1rem;
+  margin-bottom: 0.3rem;
+  background: rgba(231, 231, 231, 0.637);
+  border-radius: 0.3rem;
+  padding: 0.5rem;
 
-  max-width: 500px;
+  a {
+    transition: 80ms;
+  }
 
-  button {
-    width: 100%
+  a:hover {
+    cursor: pointer;
+    color: rgb(151, 67, 109);
+    transform: scale(1.07);
   }
 
   h2 {

@@ -6,6 +6,7 @@ import * as TodosActions from "src/app/store/todos/todos.actions";
 import { Store } from "@ngrx/store";
 import { AppState, selectTodosList } from "../../store/app.state";
 import { CookieService } from "ngx-cookie-service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-todos-list',
@@ -20,12 +21,19 @@ export class TodosListComponent implements OnInit {
   editId?: number
   isLoggedIn:Observable<boolean>
 
-  constructor(private apiService: ApiService, private store:Store<AppState>, private cookieService: CookieService) { 
+  constructor(private apiService: ApiService, private store:Store<AppState>, private cookieService: CookieService, private router: Router) { 
     this.todos$ = this.store.select(selectTodosList);
     this.isLoggedIn = this.store.select('users', 'isLoggedIn')
   }
 
   ngOnInit(): void {
+    this.isLoggedIn.subscribe(res => {
+      if(!res) {
+        this.router.navigate(['/login'])
+      }
+    }).unsubscribe()
+
+    
     this.getTodos()
 
   }
@@ -37,7 +45,9 @@ export class TodosListComponent implements OnInit {
   }
 
   addTodo(): void {
-    this.apiService.addTodo(+this.cookieService.get("user"),this.todoText).subscribe(() => {this.getTodos(); this.todoText = ''})
+    if(this.todoText.length > 0) {
+      this.apiService.addTodo(+this.cookieService.get("user"),this.todoText).subscribe(() => {this.getTodos(); this.todoText = ''})
+    }
   }
 
   checkTodo(todo: Todo): void {

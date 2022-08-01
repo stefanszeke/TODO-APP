@@ -1,13 +1,23 @@
 <div class="container">
 
-  <form [formGroup]="loginForm">
+  <form class="login" [formGroup]="loginForm">
   
-    <label for="email">Email:</label>
-    <input name="email" formControlName="email">
+    <div class="input-box">
+      <div class="title">
+        <fa-icon [icon]="faEnvelope"></fa-icon>
+        <label for="email">Email:</label>
+      </div>
+      <input name="email" formControlName="email">
+    </div>
   
-    <label for="password">Password:</label>
-    <input type="password" name="password" formControlName="password">
-  
+    <div class="input-box">
+      <div class="title">
+        <fa-icon [icon]="faKey"></fa-icon>
+        <label for="password">Password:</label>
+      </div>
+      <input type="password" name="password" formControlName="password">
+    </div>
+    
     <button (click)="login()">login</button>
   
   </form>

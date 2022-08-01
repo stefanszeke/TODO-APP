@@ -16,6 +16,7 @@ import { todosReducer } from "./store/todos/todos.reducer";
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { usersReducer } from "./store/users/users.reducer";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { usersReducer } from "./store/users/users.reducer";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({todos: todosReducer, users: usersReducer}, {})
+    FontAwesomeModule,
+    StoreModule.forRoot({todos: todosReducer, users: usersReducer}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent]

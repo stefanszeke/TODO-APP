@@ -1,14 +1,12 @@
 <nav>
-  <p>
-    {{isLoggedIn|async}}
-  </p>
   <h2>{{userName | async}}</h2>
   <button *ngIf="isLoggedIn|async" (click)="logOut()">logout</button>
-  <div>
+  <div class="nav-link">
     <a *ngIf="!(isLoggedIn|async)" [routerLink]="'login'">LOGIN</a>
   </div>
-
-  <div>
+  
+  <div class="nav-link">
     <a *ngIf="(isLoggedIn|async)" [routerLink]="'todos'">TODOS</a>
   </div>
+  <p class="debug">{{isLoggedIn|async}}</p>
 </nav>
