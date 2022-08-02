@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import {useMySql} from "../database/database";
+import bcrypt from 'bcrypt'
 
 export const registerUser = async (req:Request, res:Response) => {
+  try {
   const { name,email,password,confirm } = req.body;
 
   if(!name) return res.json({error: "Name is required"});
@@ -30,27 +32,40 @@ export const registerUser = async (req:Request, res:Response) => {
   if(!confirm) return res.json({error: "Confirm password is required"});
   if(password !== confirm) return res.json({error: "Passwords do not match"});
 
-  let sqlInsert = `INSERT INTO users (name,email,password) VALUES (?,?,?)`;
-  await useMySql(sqlInsert, [name,email,password]);
-
-  res.status(201).json({message: "User created"});
+  // hashing password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    let sqlInsert = `INSERT INTO users (name,email,password) VALUES (?,?,?)`;
+    await useMySql(sqlInsert, [name,email,hashedPassword]);
+    
+    res.status(201).json({message: "User created"});
+  } catch(error) {
+    console.log(error)
+  }
 }
 
 export const loginUser = async (req:Request, res:Response) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  if(!email) return res.json({error: "Email is required"});
-  if(!password) return res.json({error: "Password is required"});
+    if(!email) return res.json({error: "Email is required"});
+    if(!password) return res.json({error: "Password is required"});
+  
+    let sqlFind =`SELECT * FROM users WHERE email = ?`;
+    const users:any = await useMySql(sqlFind,[email]);
+  
+    if(!users[0]) return res.json({error: "Email not found"});
 
-  let sqlFind =`SELECT * FROM users WHERE email = ?`;
-  const users:any = await useMySql(sqlFind,[email]);
+    // check hashed password
+    if(!await bcrypt.compare(password, users[0].password)) return res.json({error: "Password incorrect"});
+  
+    res.cookie("user", users[0].id, {maxAge: 3600000, sameSite:'lax', secure:true});
+    res.cookie("name", users[0].name, {maxAge: 3600000, sameSite:'none', secure:true});
+    res.status(200).json({message: "User logged in"});
+  } catch(error) {
+    console.log(error)
+  }
 
-  if(!users[0]) return res.json({error: "Email not found"});
-  if(users[0].password !== password) return res.json({error: "Password incorrect"});
-
-  res.cookie("user", users[0].id, {maxAge: 3600000, sameSite:'lax', secure:true});
-  res.cookie("name", users[0].name, {maxAge: 3600000, sameSite:'none', secure:true});
-  res.status(200).json({message: "User logged in"});
 }
 
 export const deleteUserById = async (req:Request, res:Response) => {
