@@ -7,15 +7,23 @@ export const registerUser = async (req:Request, res:Response) => {
   if(!name) return res.json({error: "Name is required"});
   if(name) {if(name.length < 4) return res.json({error: "Name must be at least 4 characters"})}
 
+  let sqlFindName =`SELECT * FROM users WHERE name = ?`;
+  const usersByName:any = await useMySql(sqlFindName,[name]);
+
+  if(usersByName[0]) {
+    if(name === usersByName[0].name) return res.json({error: "Name already exists"});
+  }
+
+
   if(!email) return res.json({error: "Email is required"});
 
-  let sqlFind =`SELECT * FROM users WHERE name = ? OR email = ?`;
-  const users:any = await useMySql(sqlFind,[name,email]);
+  let sqlFindMail =`SELECT * FROM users WHERE email = ?`;
+  const usersByMail:any = await useMySql(sqlFindMail,[email]);
 
-  if(users[0]) {
-    if(name === users[0].name) return res.status(400).json({message: "Name already exists"});
-    if(email === users[0].email) return res.status(400).json({message: "Email already exists"});
+  if(usersByMail[0]) {
+    if(email === usersByMail[0].email) return res.json({error: "Email already exists"});
   }
+
 
   if(!password) return res.json({error: "Password is required"});
   if(password) {if(password.length < 5) return res.json({error: "Password must be at least 5 characters"})}
