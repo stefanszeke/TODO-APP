@@ -10,3 +10,5 @@ import tables from: </br >
 
 from ./backand and ./frontend run
 `npm i` and `npm start` each
+
+//node_modules should not be present. are you utilizing a .gitignore?
