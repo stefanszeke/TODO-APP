@@ -3,6 +3,12 @@ import {useMySql} from "../database/database";
 import bcrypt from 'bcrypt'
 import { createUserToken } from "../authentication/auth";
 
+let UsersTable = "users";
+if(process.env.NODE_ENV === 'test') {
+  UsersTable = "users_testing";
+}
+
+
 export const registerUser = async (req:Request, res:Response) => {
   try {
   const { name,email,password,confirm } = req.body;
@@ -10,7 +16,7 @@ export const registerUser = async (req:Request, res:Response) => {
   if(!name) return res.json({error: "Name is required"});
   if(name) {if(name.length < 4) return res.json({error: "Name must be at least 4 characters"})}
 
-  let sqlFindName =`SELECT * FROM users WHERE name = ?`;
+  let sqlFindName =`SELECT * FROM ${UsersTable} WHERE name = ?`;
   const usersByName:any = await useMySql(sqlFindName,[name]);
 
   if(usersByName[0]) {
@@ -20,7 +26,7 @@ export const registerUser = async (req:Request, res:Response) => {
 
   if(!email) return res.json({error: "Email is required"});
 
-  let sqlFindMail =`SELECT * FROM users WHERE email = ?`;
+  let sqlFindMail =`SELECT * FROM ${UsersTable} WHERE email = ?`;
   const usersByMail:any = await useMySql(sqlFindMail,[email]);
 
   if(usersByMail[0]) {
@@ -36,7 +42,7 @@ export const registerUser = async (req:Request, res:Response) => {
   // hashing password
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    let sqlInsert = `INSERT INTO users (name,email,password) VALUES (?,?,?)`;
+    let sqlInsert = `INSERT INTO ${UsersTable} (name,email,password) VALUES (?,?,?)`;
     await useMySql(sqlInsert, [name,email,hashedPassword]);
     
     res.status(201).json({message: "User created"});
@@ -52,7 +58,7 @@ export const loginUser = async (req:Request, res:Response) => {
     if(!email) return res.json({error: "Email is required"});
     if(!password) return res.json({error: "Password is required"});
   
-    let sqlFind =`SELECT * FROM users WHERE email = ?`;
+    let sqlFind =`SELECT * FROM ${UsersTable} WHERE email = ?`;
     const users:any = await useMySql(sqlFind,[email]);
   
     if(!users[0]) return res.json({error: "Email not found"});
@@ -76,7 +82,7 @@ export const loginUser = async (req:Request, res:Response) => {
 
 export const deleteUserById = async (req:Request, res:Response) => {
 
-  let sql = `DELETE FROM users WHERE id = ?`;
+  let sql = `DELETE FROM ${UsersTable} WHERE id = ?`;
   await useMySql(sql, [req.params.id]);
 
   res.status(200).json({message: "User deleted"});
