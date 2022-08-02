@@ -1,18 +1,19 @@
 import { Request, Response, Router } from "express";
 import { connection } from "../database/database";
 import * as todosControllers from "../controllers/controllers_todos"
+import { verifyToken } from "../authentication/auth";
 
 
 export const router: Router = Router();
 
 // api/todos
-router.get("/:id", todosControllers.getPostsByUserId)
+router.get("/:id", verifyToken, todosControllers.getTodosByUserId)
 
-router.post("/", todosControllers.newPost);
+router.post("/", verifyToken, todosControllers.newTodo);
 
-router.patch("/:id", todosControllers.updatePost)
+router.patch("/:id", verifyToken, todosControllers.updateTodo)
 
-router.delete("/:id", todosControllers.deletePostByPostId)
+router.delete("/:id", verifyToken, todosControllers.deleteTodoByTodoId)
 
 
 

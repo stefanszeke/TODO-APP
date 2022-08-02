@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {useMySql} from "../database/database";
 import bcrypt from 'bcrypt'
+import { createUserToken } from "../authentication/auth";
 
 export const registerUser = async (req:Request, res:Response) => {
   try {
@@ -58,8 +59,13 @@ export const loginUser = async (req:Request, res:Response) => {
 
     // check hashed password
     if(!await bcrypt.compare(password, users[0].password)) return res.json({error: "Password incorrect"});
+
+    // token creation
+    const token = createUserToken(users[0].id);
+    res.cookie('SESSIONID', token, {httpOnly: true, secure:true, sameSite:'none', maxAge: 3600000});
+
   
-    res.cookie("user", users[0].id, {maxAge: 3600000, sameSite:'lax', secure:true});
+    res.cookie("user", users[0].id, {maxAge: 3600000, sameSite:'none', secure:true});
     res.cookie("name", users[0].name, {maxAge: 3600000, sameSite:'none', secure:true});
     res.status(200).json({message: "User logged in"});
   } catch(error) {

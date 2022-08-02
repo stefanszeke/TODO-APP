@@ -31,9 +31,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    this.cookieService.delete('name')
-    this.cookieService.delete('user')
-
+    this.cookieService.deleteAll()
 
     this.router.navigate(['/login']).then( () =>window.location.reload())
   }

@@ -12,13 +12,14 @@ export class ApiService {
   options: any = {
     headers: new HttpHeaders({
       'content-type': 'application/json'
-    })
+    }),
+  withCredentials: true
   }
 
   constructor(private http:HttpClient) {}
 
   getTodos(id:number):Observable<Todo[]> {
-    return this.http.get<Todo[]>(`${this.url}/api/todos/${id}`);
+    return this.http.get<Todo[]>(`${this.url}/api/todos/${id}`, {withCredentials: true});
   }
 
   addTodo(user_id:number,text:string) {
@@ -26,7 +27,7 @@ export class ApiService {
   }
 
   checkTodo(id:number) {
-    return this.http.patch(`${this.url}/api/todos/${id}`, {});
+    return this.http.patch(`${this.url}/api/todos/${id}`, {}, this.options);
   }
 
   editTodo(id:number, text:string) {
@@ -34,6 +35,6 @@ export class ApiService {
   }
 
   deleteTodo(id:number) {
-    return this.http.delete(`${this.url}/api/todos/${id}`, {});
+    return this.http.delete(`${this.url}/api/todos/${id}`, this.options, );
   }
 }
