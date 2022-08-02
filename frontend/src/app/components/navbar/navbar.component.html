@@ -6,6 +6,10 @@
   </div>
   
   <div class="nav-link">
+    <a *ngIf="!(isLoggedIn|async)" [routerLink]="'register'">Register</a>
+  </div>
+  
+  <div class="nav-link">
     <a *ngIf="(isLoggedIn|async)" [routerLink]="'todos'">TODOS</a>
   </div>
   <p class="debug">{{isLoggedIn|async}}</p>

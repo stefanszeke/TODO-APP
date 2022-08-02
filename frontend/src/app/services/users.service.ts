@@ -20,4 +20,8 @@ export class UsersService {
   login(email:string, password:string):Observable<any>{
     return this.http.post<any>(`${this.url}/api/users/login`,{email,password},this.options);
   }
+
+  register(name:string, email:string, password:string, confirm:string):Observable<any>{
+    return this.http.post<any>(`${this.url}/api/users/register`,{name,email,password,confirm},this.options);
+  }
 }

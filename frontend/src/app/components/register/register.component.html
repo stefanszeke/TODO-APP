@@ -1,0 +1,44 @@
+<div class="container">
+
+  <form class="register" [formGroup]="registerForm">
+    <h1 class="form-name" >Register</h1>
+    <div class="input-box">
+      <div class="title">
+        <fa-icon [icon]="faUser"></fa-icon>
+        <label for="name">Name:</label>
+      </div>
+      <input name="name" formControlName="name">
+    </div>
+  
+    <div class="input-box">
+      <div class="title">
+        <fa-icon [icon]="faEnvelope"></fa-icon>
+        <label for="email">Email:</label>
+      </div>
+      <input name="email" formControlName="email">
+    </div>
+  
+    <div class="input-box">
+      <div class="title">
+        <fa-icon [icon]="faKey"></fa-icon>
+        <label for="password">Password:</label>
+      </div>
+      <input type="password" name="password" formControlName="password">
+    </div>
+    
+  
+    <div class="input-box">
+      <div class="title">
+        <fa-icon [icon]="faKey"></fa-icon>
+        <label for="confirm">Confirm password:</label>
+      </div>
+      <input type="password" name="confirm" formControlName="confirm">
+    </div>
+    
+    <button (click)="register()">register</button>
+  
+  </form>
+  
+  <p>{{message}}</p>
+
+</div>
