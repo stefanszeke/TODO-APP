@@ -1,10 +1,12 @@
 # TODO-APP
 express, mysql, angular, jwt
 
-copy sample.env to .env
-connect to mysql database
+copy sample.env to .env </br >
+connect to mysql database in .env
 
-import tables from `./backend/database/todo_app_todos.sql` and `./backend/database/todo_app_users.sql`
+import tables from: </br >
+`./backend/database/todo_app_todos.sql` </br >
+`./backend/database/todo_app_users.sql`
 
 from ./backand and ./frontend run
-`npm i` and `npm start`
+`npm i` and `npm start` each
