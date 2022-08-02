@@ -27,4 +27,6 @@ app.get('/', (req: Request, res: Response) => {
 
 // server
 const PORT = process.env.PORT;
+if(process.env.NODE_ENV !== 'test') {
 app.listen(PORT, () => console.log(`Server started on port ${PORT}, link: http://localhost:${PORT}/`));
+}
