@@ -40,7 +40,7 @@ describe("Users", () => {
     // sad that we can't use a type here instead of any, or can we?
     const user: any = await useMySql(sqlFind,["test@mail.com"])
 
-    const response = await supertest(app).delete(`/api/users/${user.id}`);
+    const response = await supertest(app).delete(`/api/users/${user[0].id}`);
 
     expect(response.body).to.eql({message: 'User deleted'});
   })
