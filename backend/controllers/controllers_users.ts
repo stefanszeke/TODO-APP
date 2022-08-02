@@ -81,3 +81,10 @@ export const deleteUserById = async (req:Request, res:Response) => {
 
   res.status(200).json({message: "User deleted"});
 }
+
+export const logoutUser = async (req:Request, res:Response) => {
+  res.clearCookie("user");
+  res.clearCookie("name");
+  res.clearCookie("SESSIONID");
+  res.status(200).json({message: "User logged out"});
+}

@@ -5,6 +5,7 @@ import { CookieService } from "ngx-cookie-service";
 import { Observable } from "rxjs";
 import { AppState } from "src/app/store/app.state";
 import * as UserAction from "src/app/store/users/users.actions";
+import { UsersService } from "src/app/services/users.service";
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +19,7 @@ export class NavbarComponent implements OnInit {
 
 
 
-  constructor(private cookieService: CookieService, private store:Store<AppState>, private router: Router) {
+  constructor(private cookieService: CookieService, private store:Store<AppState>, private router: Router, private userService: UsersService) {
     this.userName = this.store.select('users', 'name')
     this.isLoggedIn = this.store.select('users', 'isLoggedIn')
 
@@ -31,8 +32,8 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    this.cookieService.deleteAll()
-
-    this.router.navigate(['/login']).then( () =>window.location.reload())
+    this.userService.logout().subscribe(() => {
+      this.router.navigate(['/login']).then( () =>window.location.reload())
+    })
   }
 }

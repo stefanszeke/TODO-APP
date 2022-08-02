@@ -24,4 +24,8 @@ export class UsersService {
   register(name:string, email:string, password:string, confirm:string):Observable<any>{
     return this.http.post<any>(`${this.url}/api/users/register`,{name,email,password,confirm},this.options);
   }
+
+  logout():Observable<any>{
+    return this.http.get<any>(`${this.url}/api/users/logout`,this.options);
+  }
 }
