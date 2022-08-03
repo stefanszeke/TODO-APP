@@ -1,5 +1,4 @@
 import { Request, Response, Router } from "express";
-import { useMySql } from "../database/database";
 import * as userControllers from "../controllers/controllers_users";
 
 

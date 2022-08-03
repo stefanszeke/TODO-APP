@@ -1,3 +1,4 @@
+// i'd expect this file in "tests" folder or similar. not a huge problem really
 import supertest from 'supertest';
 import 'mocha';
 import { expect } from 'chai';
@@ -6,6 +7,7 @@ import { useMySql } from '../database/database'
 
 describe("test", () => {
   it("should succeed", ()=> {
+    // test of a test? :)
     expect(true).to.equal(true);
   })
 })
@@ -35,6 +37,7 @@ describe("Users", () => {
   
   it("find and delete User", async () => {
     let sqlFind = `SELECT * FROM users_testing WHERE email = ?`;
+    // sad that we can't use a type here instead of any, or can we?
     const user: any = await useMySql(sqlFind,["test@mail.com"])
 
     const response = await supertest(app).delete(`/api/users/${user[0].id}`);

@@ -1,5 +1,5 @@
 import mysql from "mysql";
-import dotenv from "dotenv"; 
+import dotenv from "dotenv";
 dotenv.config();
 
 const todosConnection = {
@@ -11,17 +11,17 @@ const todosConnection = {
 
 export const connection = mysql.createConnection(todosConnection);
 
-connection.connect((error)=>{
-  if(error) {console.log(error); return;}
+connection.connect((error) => {
+  if (error) { console.log(error); return; }
 
   console.log(`Database status: ${connection.state}`)
 })
 
-
-export async function useMySql(sql:string, options: any=[]) {
-  return new Promise((resolve, reject) => {
-    connection.query(sql, options, (error,result) => {
-      if (error) {reject(console.log(error))};
+// this might help with the typing!
+export async function useMySql<T>(sql: string, options: any = []) {
+  return new Promise<T>((resolve, reject) => {
+    connection.query(sql, options, (error, result) => {
+      if (error) { reject(console.log(error)) };
 
       resolve(result)
     })
