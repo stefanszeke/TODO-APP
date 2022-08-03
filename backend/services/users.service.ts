@@ -17,7 +17,40 @@ export default class UsersService {
   
     if (!users[0]) return res.json({ error: "Email not found" });
     return(users);
-
   }
+
+
+  public async checkRegister(name:string, email:string, password:string, confirm:string, res: Response): Promise<any> {
+    
+    if (!name) {res.json({ error: "Name is required" }); return false };
+
+    if (name.length < 4) {res.json({ error: "Name must be at least 4 characters" }); return false};
+
+    let sqlFindName:string = `SELECT * FROM ${UsersTable} WHERE name = ?`;
+    const usersByName: User[] = await useMySql(sqlFindName, [name]);
+
+    if (usersByName[0]) {
+      if (name === usersByName[0].name) {res.json({ error: "Name already exists" }); return false};
+    }
+
+    if (!email) {res.json({ error: "Email is required" }); return false};
+
+    let sqlFindMail:string = `SELECT * FROM ${UsersTable} WHERE email = ?`;
+    const usersByMail: User[] = await useMySql(sqlFindMail, [email]);
+
+    if (usersByMail[0]) {
+      if (email === usersByMail[0].email) {res.json({ error: "Email already exists" }); return false};
+    }
+
+
+    if (!password) {res.json({ error: "Password is required" }); return false};
+    if (password) { if (password.length < 5) {res.json({ error: "Password must be at least 5 characters" }); return false}}
+    if (!confirm) {res.json({ error: "Confirm password is required" }); return false};
+    if (password !== confirm) {res.json({ error: "Passwords do not match" }); return false};
+
+    return true
+  }
+
+  
 
 }
