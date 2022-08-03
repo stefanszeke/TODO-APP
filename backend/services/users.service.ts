@@ -1,10 +1,10 @@
 import { User } from "@todoApp/User";
 import { Response } from "express";
 import { useMySql } from "../database/database";
+import BackendService from "./backend.service";
 
-let UsersTable:string;
-if (process.env.NODE_ENV === 'production') UsersTable = "users";
-if (process.env.NODE_ENV === 'test') UsersTable = "users_testing";
+const backendService = new BackendService()
+let UsersTable:string = backendService.setEnvironment()!;
 
 export default class UsersService {
   
@@ -16,7 +16,7 @@ export default class UsersService {
     const users: User[] = await useMySql(sqlFind, [email]);
   
     if (!users[0]) return res.json({ error: "Email not found" });
-    if (users[0]) return(users);
+    return(users);
 
   }
 

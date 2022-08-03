@@ -9,7 +9,7 @@ import BackendService from "../services/backend.service";
 const userService = new UsersService()
 const backendService = new BackendService()
 
-let UsersTable:string = backendService.setEnvironment();
+let UsersTable:string = backendService.setEnvironment()!;
 
 
 
@@ -60,7 +60,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
     // check login data
     const users: User[] = await userService.checkLogin(email, password, res)
-    if(!users[0]) return;
+    if(!users.length) return;
 
     // check hashed password
     if (!await bcrypt.compare(password, users[0].password)) return res.json({ error: "Password incorrect" });
