@@ -2,6 +2,7 @@
 express, mysql, angular, jwt
 
 copy sample.env to .env </br >
+`cp sample.env .env` </br >
 connect to mysql database in .env
 
 import tables from: </br >
