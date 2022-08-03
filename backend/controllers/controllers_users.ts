@@ -3,20 +3,23 @@ import { useMySql } from "../database/database";
 import bcrypt from 'bcrypt'
 import { createUserToken } from "../authentication/auth";
 import { User } from '@todoApp/User'
+import UsersService from '../services/users.service'
+import BackendService from "../services/backend.service";
 
-let UsersTable:string;
-if (process.env.NODE_ENV === 'production') UsersTable = "users";
-if (process.env.NODE_ENV === 'test') UsersTable = "users_testing";
+const userService = new UsersService()
+const backendService = new BackendService()
+
+let UsersTable:string = backendService.setEnvironment();
 
 
-// I don't really hate it, but anyway, such a complicated code should be rather in service so the bussines logic in controller is clearly visible
+
 export const registerUser = async (req: Request, res: Response) => {
   try {
+
     const { name, email, password, confirm } = req.body;
     if (!name) return res.json({ error: "Name is required" });
-    // here you already know name is present, no need to test it again
-    if (name.length < 4)
-      return res.json({ error: "Name must be at least 4 characters" });
+
+    if (name.length < 4) return res.json({ error: "Name must be at least 4 characters" });
 
     let sqlFindName:string = `SELECT * FROM ${UsersTable} WHERE name = ?`;
     const usersByName: User[] = await useMySql(sqlFindName, [name]);
@@ -47,22 +50,17 @@ export const registerUser = async (req: Request, res: Response) => {
     await useMySql(sqlInsert, [name, email, hashedPassword]);
 
     res.status(201).json({ message: "User created" });
-  } catch (error) {
-    console.log(error)
-  }
+  } catch (error) { console.log(error); res.status(500).json({ error: "Something went wrong" }) }
 }
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
+
     const { email, password } = req.body;
 
-    if (!email) return res.json({ error: "Email is required" });
-    if (!password) return res.json({ error: "Password is required" });
-
-    let sqlFind:string = `SELECT * FROM ${UsersTable} WHERE email = ?`;
-    const users: User[] = await useMySql(sqlFind, [email]);
-
-    if (!users[0]) return res.json({ error: "Email not found" });
+    // check login data
+    const users: User[] = await userService.checkLogin(email, password, res)
+    if(!users[0]) return;
 
     // check hashed password
     if (!await bcrypt.compare(password, users[0].password)) return res.json({ error: "Password incorrect" });
@@ -71,13 +69,11 @@ export const loginUser = async (req: Request, res: Response) => {
     const token = createUserToken(users[0].id!);
     res.cookie('SESSIONID', token, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 3600000 });
 
-
-
+    // send cookies to client
     res.cookie("name", users[0].name, { maxAge: 3600000, sameSite: 'none', secure: true });
     res.status(200).json({ message: "User logged in" });
-  } catch (error) {
-    console.log(error)
-  }
+
+  } catch (error) {console.log(error)}
 
 }
 
