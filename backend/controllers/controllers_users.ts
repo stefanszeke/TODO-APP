@@ -72,7 +72,7 @@ export const loginUser = async (req: Request, res: Response) => {
     res.cookie('SESSIONID', token, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 3600000 });
 
 
-    res.cookie("user", users[0].id, { maxAge: 3600000, sameSite: 'none', secure: true });
+
     res.cookie("name", users[0].name, { maxAge: 3600000, sameSite: 'none', secure: true });
     res.status(200).json({ message: "User logged in" });
   } catch (error) {
@@ -90,7 +90,6 @@ export const deleteUserById = async (req: Request, res: Response) => {
 }
 
 export const logoutUser = async (req: Request, res: Response) => {
-  res.clearCookie("user");
   res.clearCookie("name");
   res.clearCookie("SESSIONID");
   res.status(200).json({ message: "User logged out" });

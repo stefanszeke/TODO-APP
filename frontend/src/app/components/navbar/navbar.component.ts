@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.cookieService.check('name')){
-      this.store.dispatch(UserAction.loadUser({name: this.cookieService.get('name'),userId: +this.cookieService.get('user'), isLoggedIn: true}))
+      this.store.dispatch(UserAction.loadUser({name: this.cookieService.get('name'), isLoggedIn: true}))
     }
   }
 

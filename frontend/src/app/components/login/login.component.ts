@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(val.email, val.password).subscribe(res => {
       this.message = res.error
       if(res.message === 'User logged in') {
-        this.store.dispatch(UserAction.loadUser({name: this.cookieService.get('name'),userId: +this.cookieService.get('user'), isLoggedIn: true}))
+        this.store.dispatch(UserAction.loadUser({name: this.cookieService.get('name'), isLoggedIn: true}))
         this.router.navigate(['/todos'])
       }
     });
