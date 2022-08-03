@@ -22,9 +22,9 @@ export const registerUser = async (req: Request, res: Response) => {
     if (!toRegister) return
 
     // hashing password
-    console.log('hashing password')
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // registering user
     let sqlInsert:string = `INSERT INTO ${UsersTable} (name,email,password) VALUES (?,?,?)`;
     await useMySql(sqlInsert, [name, email, hashedPassword]);
 
@@ -48,9 +48,9 @@ export const loginUser = async (req: Request, res: Response) => {
 
     // token creation
     const token = createUserToken(users[0].id!);
-    res.cookie('SESSIONID', token, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 3600000 });
-
+    
     // send cookies to client
+    res.cookie('SESSIONID', token, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 3600000 });
     res.cookie("name", users[0].name, { maxAge: 3600000, sameSite: 'none', secure: true });
     res.status(200).json({ message: "User logged in" });
 
