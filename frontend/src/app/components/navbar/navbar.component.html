@@ -12,5 +12,5 @@
   <div class="nav-link">
     <a *ngIf="(isLoggedIn|async)" [routerLink]="'todos'">TODOS</a>
   </div>
-  <p class="debug">{{isLoggedIn|async}}</p>
+  <p class="debug" style="font-size: 0.7rem">debug: logged in: {{isLoggedIn|async}}</p>
 </nav>
