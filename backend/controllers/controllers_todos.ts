@@ -3,24 +3,22 @@ import { useMySql } from "../database/database";
 import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
 import { TokenRequest } from "../authentication/auth";
+import  { Todo } from '@todoApp/Todo'
 
 dotenv.config()
 
-// this might be injected somehow? or how about env for productin, dev, and testing?
-let TodosTable = "todos";
-if (process.env.NODE_ENV === 'test') {
-  TodosTable = "todos_testing";
-}
+
+let TodosTable:string;
+if (process.env.NODE_ENV === 'production') TodosTable = "todos";
+if (process.env.NODE_ENV === 'test') TodosTable = "todos_testing";
 
 export const getTodosByUserId = async (req: Request, res: Response) => {
   try {
     jwt.verify((req as TokenRequest).token, process.env.secret_key!, async (error: any, authData: any) => {
-      if (error)
-        return res.sendStatus(403)
+      if (error) return res.sendStatus(403)
 
-      let sql = `SELECT * FROM ${TodosTable} WHERE user_id = ?`;
-      // any 💩
-      const todos: any = await useMySql(sql, [req.params.id]);
+      let sql:string = `SELECT * FROM ${TodosTable} WHERE user_id = ?`;
+      const todos: Todo[] = await useMySql(sql, [req.params.id]);
       res.status(200).json(todos);
 
     })
@@ -30,9 +28,11 @@ export const getTodosByUserId = async (req: Request, res: Response) => {
 export const newTodo = async (req: Request, res: Response) => {
   try {
     jwt.verify((req as TokenRequest).token, process.env.secret_key!, async (error: any, authData: any) => {
+      if (error) return res.sendStatus(403)
 
-      let sql = `INSERT INTO ${TodosTable} (user_id, text, isDone) VALUES (?,?,?)`;
-      await useMySql(sql, [req.body.user_id, req.body.text, 0]);
+      let newTodo: Todo = {user_id: req.body.user_id, text: req.body.text, isDone: 0};
+      let sql:string = `INSERT INTO ${TodosTable} (user_id, text, isDone) VALUES (?,?,?)`;
+      await useMySql(sql, [newTodo.user_id, newTodo.text, newTodo.isDone]);
       res.status(201).json({ message: "Todo added" });
 
     })
@@ -42,19 +42,20 @@ export const newTodo = async (req: Request, res: Response) => {
 export const updateTodo = async (req: Request, res: Response) => {
   try {
     jwt.verify((req as TokenRequest).token, process.env.secret_key!, async (error: any, authData: any) => {
+      if (error) return res.sendStatus(403)
 
       if (req.body.text) { // update text
-        let sqlText = `UPDATE ${TodosTable} SET text = ? WHERE id = ?`;
+        let sqlText:string = `UPDATE ${TodosTable} SET text = ? WHERE id = ?`;
         await useMySql(sqlText, [req.body.text, req.params.id]);
         res.status(201).json({ message: "Todo updated" });
 
       } else {  // update isDone
-        let sqlGET = `SELECT * FROM ${TodosTable} WHERE id = ?`;
-        const todos: any = await useMySql(sqlGET, [req.params.id]);
+        let sqlGET:string = `SELECT * FROM ${TodosTable} WHERE id = ?`;
+        const todos: Todo[] = await useMySql(sqlGET, [req.params.id]);
 
-        let update = todos[0].isDone === 1 ? 0 : 1;
+        let update:number = todos[0].isDone === 1 ? 0 : 1;
 
-        let sql = `UPDATE ${TodosTable} SET isDone = ? WHERE id = ?`;
+        let sql:string = `UPDATE ${TodosTable} SET isDone = ? WHERE id = ?`;
         await useMySql(sql, [update, req.params.id]);
         res.status(200).json({ message: "Todo updated" });
       }
@@ -67,9 +68,12 @@ export const updateTodo = async (req: Request, res: Response) => {
 export const deleteTodoByTodoId = async (req: Request, res: Response) => {
   try {
     jwt.verify((req as TokenRequest).token, process.env.secret_key!, async (error: any, authData: any) => {
-      let sql = `DELETE FROM ${TodosTable} WHERE id = ?`;
+      if (error) return res.sendStatus(403)
+
+      let sql:string = `DELETE FROM ${TodosTable} WHERE id = ?`;
       await useMySql(sql, [req.params.id]);
       res.status(200).json({ message: "Todo deleted" });
+
     })
   } catch (error) { console.log(error) }
 }
