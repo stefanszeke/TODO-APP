@@ -18,12 +18,12 @@ export class ApiService {
 
   constructor(private http:HttpClient) {}
 
-  getTodos(id:number):Observable<Todo[]> {
-    return this.http.get<Todo[]>(`${this.url}/api/todos/${id}`, {withCredentials: true});
+  getTodos():Observable<Todo[]> {
+    return this.http.get<Todo[]>(`${this.url}/api/todos/`, {withCredentials: true});
   }
 
-  addTodo(user_id:number,text:string) {
-    return this.http.post(`${this.url}/api/todos`, {user_id,text}, this.options);
+  addTodo(text:string) {
+    return this.http.post(`${this.url}/api/todos`, {text}, this.options);
   }
 
   checkTodo(id:number) {

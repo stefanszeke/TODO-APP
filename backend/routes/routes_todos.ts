@@ -5,7 +5,7 @@ import { verifyToken } from "../authentication/auth";
 export const router: Router = Router();
 
 // api/todos
-router.get("/:id", verifyToken, todosControllers.getTodosByUserId)
+router.get("/", verifyToken, todosControllers.getTodosByUserId)
 
 router.post("/", verifyToken, todosControllers.newTodo);
 

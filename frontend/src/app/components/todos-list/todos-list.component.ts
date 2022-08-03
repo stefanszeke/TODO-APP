@@ -39,14 +39,14 @@ export class TodosListComponent implements OnInit {
   }
 
   getTodos(): void {
-    this.apiService.getTodos(+this.cookieService.get("user")).subscribe(res => {
+    this.apiService.getTodos().subscribe(res => {
       this.store.dispatch(TodosActions.loadTodos({todos: res}))
     })
   }
 
   addTodo(): void {
     if(this.todoText.length > 0) {
-      this.apiService.addTodo(+this.cookieService.get("user"),this.todoText).subscribe(() => {this.getTodos(); this.todoText = ''})
+      this.apiService.addTodo(this.todoText).subscribe(() => {this.getTodos(); this.todoText = ''})
     }
   }
 
