@@ -5,10 +5,10 @@
       
       <div class="input-text">
         <fa-icon [icon]="faFilePen"></fa-icon>
-        <input type="text" [(ngModel)]="todoText">
+        <input (keydown)="onKeydown($event)" type="text" [(ngModel)]="todoText">
       </div>
       
-      
+  
       <div class="input-buttons">
         <button *ngIf="!editMode" (click)="addTodo()">add todo</button>
         <button *ngIf="editMode" (click)="updateTodo()">edit</button>

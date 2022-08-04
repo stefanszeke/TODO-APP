@@ -107,4 +107,14 @@ export class TodosListComponent implements OnInit {
   selectNotDone() {
     this.filteredTodos$ = this.todos$.pipe(map(res => res.filter(todo => !todo.isDone)))
   }
+
+  onKeydown($event: KeyboardEvent) {
+    if($event.key === 'Enter') {
+      if(this.editMode) {
+        this.updateTodo()
+      } else {
+        this.addTodo()
+      }
+    }
+  }
 }
