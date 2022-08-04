@@ -92,6 +92,10 @@ button:hover {
 
 @media screen and (max-width: 65rem) {
 
+  * {
+    font-size: 15px;
+  }
+
   .wrapper {
     margin-top: 1rem;
   }
@@ -103,6 +107,8 @@ button:hover {
       grid-template-columns: 1fr;
       padding: 0.7rem;
   }
+
+
 
 
 }
