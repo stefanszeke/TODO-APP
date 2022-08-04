@@ -19,8 +19,8 @@
   box-shadow: 0px 0px 5px 1px grey;
   border-radius: 0.3rem;
   padding: 2rem;
-
-
+  display: grid;
+  margin: auto;
   background: white;
   transition: 200ms;
 }
@@ -52,6 +52,7 @@ button:hover {
 }
 
 .login, .register {
+
   input {
     border: none;
     border-bottom: 2px solid grey;
@@ -93,6 +94,14 @@ button:hover {
 
   .wrapper {
     margin-top: 1rem;
+  }
+
+  .container {
+      box-shadow: none;
+      background: none;
+      min-width: auto;
+      grid-template-columns: 1fr;
+      padding: 0.7rem;
   }
 
 

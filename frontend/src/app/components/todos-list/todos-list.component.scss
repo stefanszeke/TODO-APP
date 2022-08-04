@@ -1,3 +1,10 @@
+.container {
+  display: grid;
+
+  grid-template-columns: 1fr 20%;
+  gap: 2rem;
+}
+
 .input-field {
   display: grid;
   grid-template-columns: 1fr 20%;
@@ -35,16 +42,28 @@
   }
 }
 
-.container {
+.filter-buttons {
   display: grid;
+  grid-auto-flow: column;
+  gap: 0.5rem;
+  justify-content: start;
+  gap: 1rem;
 
-  grid-template-columns: 1fr 20%;
-  gap: 2rem;
+  button {
+    border: none;
+    padding: 0.2rem;
+    background: none;
+    color: grey;
+    font-size: 0.6rem;
+    cursor: pointer;
+  }
 }
+
 
 .chart-box {
   position: relative;
-  place-self: center;
+  align-self: start;
+  justify-self: center;
 
 }
 
@@ -73,21 +92,19 @@
   color: #5a5a5a; 
 }
 
-@media screen and (max-width: 65rem) {
 
-  .container {
-    box-shadow: none;
-    background: none;
-    min-width: auto;
-    grid-template-columns: 1fr;
-    padding: 0.5rem;
-  }
+
+@media screen and (max-width: 65rem) {
 
   .todo-box {
     width: 100%;
   }
 
   .input-field {
+    grid-template-columns: 1fr;
+  }  
+
+  .container {
     grid-template-columns: 1fr;
   }
 

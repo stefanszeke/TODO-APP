@@ -7,7 +7,8 @@
         <fa-icon [icon]="faFilePen"></fa-icon>
         <input type="text" [(ngModel)]="todoText">
       </div>
-
+      
+      
       <div class="input-buttons">
         <button *ngIf="!editMode" (click)="addTodo()">add todo</button>
         <button *ngIf="editMode" (click)="updateTodo()">edit</button>
@@ -15,9 +16,14 @@
       </div>
     </div>
     
+    <div class="filter-buttons">
+      <button (click)="selectAll()">all</button>
+      <button (click)="selectDone()">Done</button>
+      <button (click)="selectNotDone()">Not Done</button>
+    </div>
     
     <div class="todos-list">
-      <app-todo-item *ngFor="let todo of todos$ | async"
+      <app-todo-item *ngFor="let todo of filteredTodos$ | async"
        [todo]="todo" 
        (onClickCheck)="checkTodo(todo)"
        (onClickDelete)="deleteTodo(todo)"

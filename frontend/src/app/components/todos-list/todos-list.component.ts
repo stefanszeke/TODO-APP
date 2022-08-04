@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { Todo } from "src/app/models/Todo";
 import { ApiService } from "src/app/services/todos.service";
 import * as TodosActions from "src/app/store/todos/todos.actions";
@@ -18,6 +18,7 @@ import { faFilePen } from "@fortawesome/free-solid-svg-icons"
 export class TodosListComponent implements OnInit {
 
   todos$!: Observable<Todo[]>;
+  filteredTodos$!: Observable<Todo[]>;
   todoText: string = '';
   editMode: boolean = false
   editId?: number
@@ -35,6 +36,7 @@ export class TodosListComponent implements OnInit {
 
   constructor(private apiService: ApiService, private store:Store<AppState>, private cookieService: CookieService, private router: Router) { 
     this.todos$ = this.store.select(selectTodosList);
+    this.filteredTodos$ = this.todos$
     this.isLoggedIn = this.store.select('users', 'isLoggedIn')
   }
 
@@ -94,5 +96,15 @@ export class TodosListComponent implements OnInit {
 
   updateTodo(): void {
     this.apiService.editTodo(this.editId!, this.todoText).subscribe(() => {this.getTodos(); this.editMode = false; this.todoText = ''})
+  }
+
+  selectAll() {
+    this.filteredTodos$ = this.todos$
+  }
+  selectDone() {
+    this.filteredTodos$ = this.todos$.pipe(map(res => res.filter(todo => todo.isDone)))
+  }
+  selectNotDone() {
+    this.filteredTodos$ = this.todos$.pipe(map(res => res.filter(todo => !todo.isDone)))
   }
 }

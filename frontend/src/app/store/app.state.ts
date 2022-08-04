@@ -12,3 +12,7 @@ export const selectTodos = (state: AppState) => state.todos;
 export const selectTodosList = createSelector(
   selectTodos, (todos) => todos.todos
 )
+
+export const selectIsDoneTodos = createSelector(
+  selectTodosList, (todos) => todos.filter(todo => todo.isDone)
+)
