@@ -10,7 +10,7 @@
 
 .wrapper {
   display: grid;
-  max-width: 40rem;
+  max-width: 50rem;
   margin: auto;
   margin-top: 5rem;
 }
@@ -27,9 +27,9 @@
 
 body {
   color: rgb(59, 59, 59);
-  background: rgb(2,0,36);
-  background: linear-gradient(180deg, rgb(247, 216, 204) 0%, rgb(255, 255, 255) 100%);
-  background-repeat: no-repeat;
+  // background: rgb(2,0,36);
+  // background: linear-gradient(180deg, rgb(247, 216, 204) 0%, rgb(255, 255, 255) 100%);
+  // background-repeat: no-repeat;
   height: 100vh;
 }
 
@@ -89,7 +89,7 @@ button:hover {
   
 }
 
-@media screen and (max-width: 50rem) {
+@media screen and (max-width: 65rem) {
 
   .wrapper {
     margin-top: 1rem;

@@ -7,6 +7,8 @@ import { Store } from "@ngrx/store";
 import { AppState, selectTodosList } from "../../store/app.state";
 import { CookieService } from "ngx-cookie-service";
 import { Router } from "@angular/router";
+import { faFilePen } from "@fortawesome/free-solid-svg-icons"
+
 
 @Component({
   selector: 'app-todos-list',
@@ -28,6 +30,8 @@ export class TodosListComponent implements OnInit {
   completed!:boolean
   chartText:string = '%'
   empty!:boolean
+
+  faFilePen = faFilePen
 
   constructor(private apiService: ApiService, private store:Store<AppState>, private cookieService: CookieService, private router: Router) { 
     this.todos$ = this.store.select(selectTodosList);

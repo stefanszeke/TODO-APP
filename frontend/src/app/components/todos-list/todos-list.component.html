@@ -2,10 +2,17 @@
 
   <div class="todo-box">
     <div class="input-field">
-      <input type="text" [(ngModel)]="todoText">
-      <button *ngIf="!editMode" (click)="addTodo()">add todo</button>
-      <button *ngIf="editMode" (click)="updateTodo()">edit</button>
-      <button *ngIf="editMode" (click)="cancelEdit()">cancel</button>
+      
+      <div class="input-text">
+        <fa-icon [icon]="faFilePen"></fa-icon>
+        <input type="text" [(ngModel)]="todoText">
+      </div>
+
+      <div class="input-buttons">
+        <button *ngIf="!editMode" (click)="addTodo()">add todo</button>
+        <button *ngIf="editMode" (click)="updateTodo()">edit</button>
+        <button *ngIf="editMode" (click)="cancelEdit()">cancel</button>
+      </div>
     </div>
     
     
