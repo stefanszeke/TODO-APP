@@ -8,12 +8,21 @@
 
 }
 
+.wrapper {
+  display: grid;
+  max-width: 40rem;
+  margin: auto;
+  margin-top: 5rem;
+}
+
 .container {
   box-shadow: 0px 0px 5px 1px grey;
   border-radius: 0.3rem;
   padding: 2rem;
-  min-width: 25rem;
+
+
   background: white;
+  transition: 200ms;
 }
 
 body {
@@ -80,3 +89,12 @@ button:hover {
   
 }
 
+@media screen and (max-width: 50rem) {
+
+  .wrapper {
+    margin-top: 1rem;
+  }
+
+
+}
+  

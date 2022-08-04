@@ -5,3 +5,58 @@
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
+
+.container {
+  display: grid;
+
+  grid-template-columns: 1fr 30%;
+  gap: 2rem;
+}
+
+.chart-box {
+  position: relative;
+  place-self: center;
+
+}
+
+.char-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+ 
+}
+
+.nice h1 {
+  font-size: 2rem;
+}
+
+.percent h1 {
+  font-size: 1.4rem;
+}
+
+.nice {
+  color: #50C878; 
+}
+
+.percent {
+  color: #5a5a5a; 
+}
+
+@media screen and (max-width: 50rem) {
+
+  .container {
+    box-shadow: none;
+    background: none;
+    min-width: auto;
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
+
+  .todo-box {
+    width: 100%;
+  }
+
+}
+  

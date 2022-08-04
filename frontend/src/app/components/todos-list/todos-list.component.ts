@@ -21,6 +21,14 @@ export class TodosListComponent implements OnInit {
   editId?: number
   isLoggedIn:Observable<boolean>
 
+
+  view:[number,number]=[200,200]
+  chartData:any = []
+  chartColors:any = [{name: 'Completed', value: '#50C878'}, {name: 'Not completed', value: '#B84258'}]
+  completed!:boolean
+  chartText:string = '%'
+  empty!:boolean
+
   constructor(private apiService: ApiService, private store:Store<AppState>, private cookieService: CookieService, private router: Router) { 
     this.todos$ = this.store.select(selectTodosList);
     this.isLoggedIn = this.store.select('users', 'isLoggedIn')
@@ -33,9 +41,18 @@ export class TodosListComponent implements OnInit {
       }
     }).unsubscribe()
 
-    
+    this.todos$.subscribe(res => {
+      this.chartData = [
+        {name: 'Completed', value: res.filter(todo => todo.isDone).length},
+        {name: 'Not completed', value: res.filter(todo => !todo.isDone).length},
+      ]
+      this.completed = res.filter(todo => todo.isDone).length === res.length && res.length > 0
+      this.chartText = ((res.length - res.filter(todo => !todo.isDone).length)*(100/res.length)).toFixed(0) + '%'
+      this.empty = res.length > 0 ? false : true
+      
+    })
+  
     this.getTodos()
-
   }
 
   getTodos(): void {

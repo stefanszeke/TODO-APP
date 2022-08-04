@@ -1,20 +1,42 @@
 <div *ngIf="isLoggedIn|async" class="container">
 
-  <div class="input-field">
-    <input type="text" [(ngModel)]="todoText">
-    <button *ngIf="!editMode" (click)="addTodo()">add todo</button>
-    <button *ngIf="editMode" (click)="updateTodo()">edit</button>
-    <button *ngIf="editMode" (click)="cancelEdit()">cancel</button>
+  <div class="todo-box">
+    <div class="input-field">
+      <input type="text" [(ngModel)]="todoText">
+      <button *ngIf="!editMode" (click)="addTodo()">add todo</button>
+      <button *ngIf="editMode" (click)="updateTodo()">edit</button>
+      <button *ngIf="editMode" (click)="cancelEdit()">cancel</button>
+    </div>
+    
+    
+    <div class="todos-list">
+      <app-todo-item *ngFor="let todo of todos$ | async"
+       [todo]="todo" 
+       (onClickCheck)="checkTodo(todo)"
+       (onClickDelete)="deleteTodo(todo)"
+       (onClickEdit)="editTodo(todo)">
+       ></app-todo-item>
+    </div>
   </div>
-  
-  
-  <div class="todos-list">
-    <app-todo-item *ngFor="let todo of todos$ | async"
-     [todo]="todo" 
-     (onClickCheck)="checkTodo(todo)"
-     (onClickDelete)="deleteTodo(todo)"
-     (onClickEdit)="editTodo(todo)">
-     ></app-todo-item>
+
+  <div class="chart-box">
+    <div>
+      <ngx-charts-pie-chart
+      [view]="view"
+      [results]="chartData"
+      
+      [doughnut]="true"
+      [customColors]="chartColors"
+
+      ></ngx-charts-pie-chart>
+    </div>
+    <div *ngIf="completed" class="char-text nice">
+      <h1>Nice</h1>
+    </div>
+    <div *ngIf="!completed && !empty" class="char-text percent">
+      <h1>{{chartText}}</h1>
+    </div>
   </div>
+
 
 </div>

@@ -6,7 +6,8 @@
   margin-bottom: 0.3rem;
   background: rgba(231, 231, 231, 0.637);
   border-radius: 0.3rem;
-  padding: 0.5rem;
+  padding: 0.3rem;
+
 
   a {
     transition: 80ms;
@@ -20,6 +21,7 @@
 
   h2 {
     text-align: start;
-    padding-left: 5px;
+    padding-left: 0.2rem;
+    overflow: hidden;
   }
 }
