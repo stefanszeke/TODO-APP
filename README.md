@@ -1,7 +1,8 @@
 # TODO-APP
     express, mysql, angular, jwt, docker-compose
 
-## VERSION FROM 5.8.2022 now live on Heroku: [todo heroku](https://todo-app-szeke.herokuapp.com)
+### VERSION FROM 5.8.2022 now live on Heroku: [todo heroku](https://todo-app-szeke.herokuapp.com)
+### (but database sometimes disconnects and I don't know why :(
   
   </br >
 
