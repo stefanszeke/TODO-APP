@@ -34,6 +34,8 @@ export default class UsersService {
     }
 
     if (!email) {res.json({ error: "Email is required" }); return false};
+    let emailRegex: RegExp = /[\w\.\-\%\!]+@\w+\.\w{2,}/;
+    if(!emailRegex.test(email)) {res.json({ error: "Doesn't look like an email address to me" }); return false};
 
     let sqlFindMail:string = `SELECT * FROM ${UsersTable} WHERE email = ?`;
     const usersByMail: User[] = await useMySql(sqlFindMail, [email]);
