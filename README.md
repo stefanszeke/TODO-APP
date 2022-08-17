@@ -24,8 +24,10 @@ or `docker-compose stop` to stop the container </br >
 ### install and run the backend and the fronted:
 from ./backand and ./frontend run </br >
 `npm i` and `npm start` each </br >
+go to `http://localhost:4200` to use the app
 
 </br >
+
 
 ### adminer:
 to use adminer go to: http://localhost:8090/ </br >
