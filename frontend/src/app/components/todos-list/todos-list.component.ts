@@ -109,12 +109,7 @@ export class TodosListComponent implements OnInit {
   }
 
   onKeydown($event: KeyboardEvent) {
-    if($event.key === 'Enter') {
-      if(this.editMode) {
-        this.updateTodo()
-      } else {
-        this.addTodo()
-      }
-    }
+    if($event.key === 'Enter') this.editMode ? this.updateTodo() : this.addTodo()
   }
+  
 }
