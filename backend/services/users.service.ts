@@ -1,9 +1,12 @@
 import { User } from "@todoApp/User";
 import { Response } from "express";
-import { useMySql } from "../database/database";
+import { Database } from "../database/database";
 import BackendService from "./backend.service";
 
+
 const backendService = new BackendService()
+const database = Database.getInstance();
+
 let UsersTable:string = backendService.setEnvironment("users")!;
 
 export default class UsersService {
@@ -13,7 +16,7 @@ export default class UsersService {
     if (!password) return res.json({ error: "Password is required" });
   
     let sqlFind:string = `SELECT * FROM ${UsersTable} WHERE email = ?`;
-    const users: User[] = await useMySql(sqlFind, [email]);
+    const users: User[] = await database.useMySql(sqlFind, [email]);
   
     if (!users[0]) return res.json({ error: "Email not found" });
     return(users);
@@ -27,7 +30,7 @@ export default class UsersService {
     if (name.length < 4) {res.json({ error: "Name must be at least 4 characters" }); return false};
 
     let sqlFindName:string = `SELECT * FROM ${UsersTable} WHERE name = ?`;
-    const usersByName: User[] = await useMySql(sqlFindName, [name]);
+    const usersByName: User[] = await database.useMySql(sqlFindName, [name]);
 
     if (usersByName[0]) {
       if (name === usersByName[0].name) {res.json({ error: "Name already exists" }); return false};
@@ -38,7 +41,7 @@ export default class UsersService {
     if(!emailRegex.test(email)) {res.json({ error: "Doesn't look like an email address to me" }); return false};
 
     let sqlFindMail:string = `SELECT * FROM ${UsersTable} WHERE email = ?`;
-    const usersByMail: User[] = await useMySql(sqlFindMail, [email]);
+    const usersByMail: User[] = await database.useMySql(sqlFindMail, [email]);
 
     if (usersByMail[0]) {
       if (email === usersByMail[0].email) {res.json({ error: "Email already exists" }); return false};

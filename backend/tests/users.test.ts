@@ -3,7 +3,9 @@ import supertest from 'supertest';
 import 'mocha';
 import { expect } from 'chai';
 import { app } from '../app'
-import { useMySql } from '../database/database'
+import { Database } from '../database/database'
+
+const database = Database.getInstance();
 
 describe("test", () => {
   it("should succeed", ()=> {
@@ -38,7 +40,7 @@ describe("Users", () => {
   it("find and delete User", async () => {
     let sqlFind = `SELECT * FROM users_testing WHERE email = ?`;
     // sad that we can't use a type here instead of any, or can we?
-    const user: any = await useMySql(sqlFind,["test@mail.com"])
+    const user: any = await database.useMySql(sqlFind,["test@mail.com"])
 
     const response = await supertest(app).delete(`/api/users/${user[0].id}`);
 

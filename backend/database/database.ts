@@ -10,21 +10,36 @@ const todosConnection = {
   port: 3340,
 }
 
-export const connection = mysql.createConnection(todosConnection);
 
-connection.connect((error) => {
-  if (error) { console.log(error); return; }
 
-  console.log(`Database status: connected`)
-})
+export class Database {
+  private static instance: Database;
+  public readonly connection: mysql.Connection;
 
-export async function useMySql(sql: string, options: any = []) {
-  return new Promise<any>((resolve, reject) => {
-    connection.query(sql, options, (error, result) => {
-      if (error) { reject(console.log(error)) };
-
-      resolve(result)
+  private constructor() {
+    this.connection = mysql.createConnection(todosConnection);
+    this.connection.connect((error) => {
+      if (error) { console.log(error); return; }
+    
+      console.log(`Database status: connected`)
     })
-  })
-}
+   }
 
+  public static getInstance(): Database {
+    if (!Database.instance) {
+      Database.instance = new Database();
+    } 
+
+    return Database.instance;
+  }
+
+  useMySql(sql: string, options: any = []) {
+    return new Promise<any>((resolve, reject) => {
+      this.connection.query(sql, options, (error, result) => {
+        if (error) { reject(console.log(error)) };
+  
+        resolve(result)
+      })
+    })
+  }
+}
