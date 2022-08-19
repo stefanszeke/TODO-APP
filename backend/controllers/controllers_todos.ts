@@ -4,13 +4,13 @@ import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
 import { TokenRequest } from "../authentication/auth";
 import  { Todo } from '@todoApp/Todo'
+import BackendService from "../services/backend.service";
 
 dotenv.config()
 
+const backendService = new BackendService()
 
-let TodosTable:string;
-if (process.env.NODE_ENV === 'production') TodosTable = "todos";
-if (process.env.NODE_ENV === 'test') TodosTable = "todos_testing";
+let TodosTable:string = backendService.setEnvironment('todos');
 
 export const getTodosByUserId = async (req: Request, res: Response) => {
   try {

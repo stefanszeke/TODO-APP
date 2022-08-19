@@ -9,7 +9,7 @@ import BackendService from "../services/backend.service";
 const userService = new UsersService()
 const backendService = new BackendService()
 
-let UsersTable:string = backendService.setEnvironment()!;
+let UsersTable:string = backendService.setEnvironment('users');
 
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -36,7 +36,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
-
+    console.log(UsersTable)
     const { email, password } = req.body;
 
     // check login data

@@ -4,7 +4,7 @@ import { useMySql } from "../database/database";
 import BackendService from "./backend.service";
 
 const backendService = new BackendService()
-let UsersTable:string = backendService.setEnvironment()!;
+let UsersTable:string = backendService.setEnvironment("users")!;
 
 export default class UsersService {
   
