@@ -30,7 +30,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     res.status(201).json({ message: "User created" });
     
-  } catch (error) { console.log(error)}
+  } catch (err) { console.log(err); res.status(500).json({ message: "Something went wrong" }); }
 }
 
 
@@ -54,7 +54,7 @@ export const loginUser = async (req: Request, res: Response) => {
     res.cookie("name", users[0].name, { maxAge: 3600000, sameSite: 'none', secure: true });
     res.status(200).json({ message: "User logged in" });
 
-  } catch (error) {console.log(error)}
+  } catch (err) {console.log(err); res.status(500).json({ message: "Something went wrong" }); }
 }
 
 
@@ -66,7 +66,7 @@ export const deleteUserById = async (req: Request, res: Response) => {
     await useMySql(sql, [req.params.id]);
     res.status(200).json({ message: "User deleted" });
 
-  } catch (error) {console.log(error)}
+  } catch (err) {console.log(err); res.status(500).json({ message: "Something went wrong" }); }
 
 }
 
@@ -78,5 +78,5 @@ export const logoutUser = async (req: Request, res: Response) => {
     res.clearCookie("SESSIONID");
     res.status(200).json({ message: "User logged out" });
 
-  } catch (error) {console.log(error)}
+  } catch (err) {console.log(err); res.status(500).json({ message: "Something went wrong" });}
 }

@@ -18,7 +18,6 @@ connection.connect((error) => {
   console.log(`Database status: connected`)
 })
 
-// this might help with the typing!
 export async function useMySql(sql: string, options: any = []) {
   return new Promise<any>((resolve, reject) => {
     connection.query(sql, options, (error, result) => {

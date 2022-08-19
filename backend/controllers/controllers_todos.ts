@@ -22,7 +22,7 @@ export const getTodosByUserId = async (req: Request, res: Response) => {
       res.status(200).json(todos);
 
     })
-  } catch (error) { console.log(error) }
+  } catch (err) { console.log(err); res.status(500).json({ message: "Something went wrong" }); }
 }
 
 export const newTodo = async (req: Request, res: Response) => {
@@ -36,7 +36,7 @@ export const newTodo = async (req: Request, res: Response) => {
       res.status(201).json({ message: "Todo added" });
 
     })
-  } catch (error) { console.log(error) }
+  } catch (err) { console.log(err); res.status(500).json({ message: "Something went wrong" }); }
 }
 
 export const updateTodo = async (req: Request, res: Response) => {
@@ -61,7 +61,7 @@ export const updateTodo = async (req: Request, res: Response) => {
       }
 
     })
-  } catch (error) { console.log(error) }
+  } catch (err) { console.log(err); res.status(500).json({ message: "Something went wrong" }); }
 }
 
 
@@ -75,5 +75,5 @@ export const deleteTodoByTodoId = async (req: Request, res: Response) => {
       res.status(200).json({ message: "Todo deleted" });
 
     })
-  } catch (error) { console.log(error) }
+  } catch (err) { console.log(err); res.status(500).json({ message: "Something went wrong" }); }
 }
