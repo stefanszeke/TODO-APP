@@ -27,7 +27,10 @@
        [todo]="todo" 
        (onClickCheck)="checkTodo(todo)"
        (onClickDelete)="deleteTodo(todo)"
-       (onClickEdit)="editTodo(todo)">
+       (onClickEdit)="editTodo(todo)"
+       (onClickUp)="moveUp(todo)"
+       (onClickDown)="moveDown(todo)"
+       >
        ></app-todo-item>
     </div>
   </div>

@@ -18,7 +18,7 @@ export const getTodosByUserId = async (req: Request, res: Response) => {
     jwt.verify((req as TokenRequest).token, process.env.secret_key!, async (error: any, authData: any) => {
       if (error) return res.sendStatus(403)
 
-      let sql:string = `SELECT * FROM ${TodosTable} WHERE user_id = ?`;
+      let sql:string = `SELECT * FROM ${TodosTable} WHERE user_id = ? ORDER BY order_id`;
       const todos: Todo[] = await database.useMySql(sql, [authData.userId]);
       res.status(200).json(todos);
 
@@ -31,9 +31,13 @@ export const newTodo = async (req: Request, res: Response) => {
     jwt.verify((req as TokenRequest).token, process.env.secret_key!, async (error: any, authData: any) => {
       if (error) return res.sendStatus(403)
 
-      let newTodo: Todo = {user_id: authData.userId, text: req.body.text, isDone: 0};
-      let sql:string = `INSERT INTO ${TodosTable} (user_id, text, isDone) VALUES (?,?,?)`;
-      await database.useMySql(sql, [newTodo.user_id, newTodo.text, newTodo.isDone]);
+      let order_id = await database.useMySql(`SELECT MAX(order_id) FROM ${TodosTable} WHERE user_id = ?`, [authData.userId]); 
+      let newOrder_id = order_id[0]['MAX(order_id)'] + 1 || 1;
+
+      let newTodo: Todo = {user_id: authData.userId, text: req.body.text, isDone: 0, order_id: newOrder_id};
+
+      let sql:string = `INSERT INTO ${TodosTable} (user_id, text, isDone, order_id) VALUES (?,?,?,?)`;
+      await database.useMySql(sql, [newTodo.user_id, newTodo.text, newTodo.isDone, newTodo.order_id]);
       res.status(201).json({ message: "Todo added" });
 
     })
@@ -49,7 +53,7 @@ export const updateTodo = async (req: Request, res: Response) => {
         let sqlText:string = `UPDATE ${TodosTable} SET text = ? WHERE id = ? AND user_id = ?`;
         await database.useMySql(sqlText, [req.body.text, req.params.id,authData.userId]);
         res.status(201).json({ message: "Todo updated" });
-
+      
       } else {  // update isDone
         let sqlGET:string = `SELECT * FROM ${TodosTable} WHERE id = ? AND user_id = ?`;
         const todos: Todo[] = await database.useMySql(sqlGET, [req.params.id,authData.userId]);
@@ -65,15 +69,36 @@ export const updateTodo = async (req: Request, res: Response) => {
   } catch (err) { console.log(err); res.status(500).json({ message: "Something went wrong" }); }
 }
 
+export const reorderTodos = async (req: Request, res: Response) => {
+  try {
+
+    jwt.verify((req as TokenRequest).token, process.env.secret_key!, async (error: any, authData: any) => {
+      if (error) return res.sendStatus(403)
+
+      let todo1 = {...req.body.todos[0]}
+      let todo2 = {...req.body.todos[1]}
+
+      await database.useMySql(`UPDATE ${TodosTable} SET order_id = ? WHERE id = ? AND user_id = ?`, [todo2.order_id, todo1.id, authData.userId]);
+      await database.useMySql(`UPDATE ${TodosTable} SET order_id = ? WHERE id = ? AND user_id = ?`, [todo1.order_id, todo2.id, authData.userId]);
+      res.status(201).json({ message: "Todos order updated" });
+
+    })
+  } catch (err) { console.log(err); res.status(500).json({ message: "Something went wrong" }); }
+}
 
 export const deleteTodoByTodoId = async (req: Request, res: Response) => {
   try {
     jwt.verify((req as TokenRequest).token, process.env.secret_key!, async (error: any, authData: any) => {
       if (error) return res.sendStatus(403)
 
+      let order_id = await database.useMySql(`SELECT order_id FROM ${TodosTable} WHERE user_id = ? AND id = ?`, [authData.userId, req.params.id]);
+
       let sql:string = `DELETE FROM ${TodosTable} WHERE id = ? AND user_id = ?`;
       await database.useMySql(sql, [req.params.id,authData.userId]);
       res.status(200).json({ message: "Todo deleted" });
+
+      let sqlUpdateOrder:string = `UPDATE ${TodosTable} SET order_id = order_id - 1 WHERE user_id = ? AND order_id > ?`;
+      await database.useMySql(sqlUpdateOrder, [authData.userId, order_id[0].order_id]);
 
     })
   } catch (err) { console.log(err); res.status(500).json({ message: "Something went wrong" }); }

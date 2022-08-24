@@ -6,6 +6,11 @@
 
   <h2>{{todo.text}}</h2>
 
+  <div class="order-arrows">
+    <a (click)='emitClickUp()'><fa-icon [icon]="faAngleUp"></fa-icon></a>
+    <a (click)='emitClickDown()'><fa-icon [icon]="faAngleDown"></fa-icon></a>
+  </div>
+
   <button (click)='emitClickEdit()'><fa-icon [icon]="faPen"></fa-icon></button>
 
   <button (click)='emitClickDelete()'><fa-icon [icon]="faXmark"></fa-icon></button>

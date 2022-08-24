@@ -1,6 +1,6 @@
 .item {
   display: grid;
-  grid-template-columns: 5% 1fr 10% 10%;
+  grid-template-columns: 5% 1fr 5% 10% 10%;
   align-items: center;
   gap: 0.1rem;
   margin-bottom: 0.3rem;
@@ -20,8 +20,17 @@
   }
 
   h2 {
-    text-align: start;
+    place-items: center;
     padding-left: 0.2rem;
     overflow: hidden;
+  }
+
+  .order-arrows {
+    display: grid;
+    place-items: center;
+
+    a {
+      line-height: 0;
+    }
   }
 }

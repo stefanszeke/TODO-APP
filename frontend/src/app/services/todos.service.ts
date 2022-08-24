@@ -37,4 +37,10 @@ export class ApiService {
   deleteTodo(id:number) {
     return this.http.delete(`${this.url}/api/todos/${id}`, this.options, );
   }
+
+  reorderTodos(todos:Todo[]) {
+    return this.http.put(`${this.url}/api/todos`, {todos}, this.options);
+  }
+
+
 }

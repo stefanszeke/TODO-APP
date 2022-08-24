@@ -111,5 +111,24 @@ export class TodosListComponent implements OnInit {
   onKeydown($event: KeyboardEvent) {
     if($event.key === 'Enter') this.editMode ? this.updateTodo() : this.addTodo()
   }
+
+  moveUp(todo: Todo) {
+    this.filteredTodos$.subscribe(res => {
+      let index = res.indexOf(todo)
+      if(index > 0) {
+        this.apiService.reorderTodos([todo, res[index-1]]).subscribe(() => this.getTodos())
+      }
+    }).unsubscribe()
+
+  }
+
+  moveDown(todo: Todo) {
+    this.filteredTodos$.subscribe(res => {
+      let index = res.indexOf(todo)
+      if(index < res.length-1) {
+        this.apiService.reorderTodos([todo, res[index+1]]).subscribe(() => this.getTodos())
+      }
+    }).unsubscribe()
+  }
   
 }

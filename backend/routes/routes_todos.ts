@@ -11,6 +11,8 @@ router.post("/", verifyToken, todosControllers.newTodo);
 
 router.patch("/:id", verifyToken, todosControllers.updateTodo)
 
+router.put("/", verifyToken, todosControllers.reorderTodos)
+
 router.delete("/:id", verifyToken, todosControllers.deleteTodoByTodoId)
 
 
