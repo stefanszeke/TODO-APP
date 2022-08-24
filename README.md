@@ -22,9 +22,10 @@ or `docker-compose stop` to stop the container </br >
 </br >
 
 ### install and run the backend and the fronted:
-from ./backand and ./frontend run </br >
-`npm i` and `npm start` each </br >
-go to `http://localhost:4200` to use the app
+`npm i` each </br >
+from ./frontend run: `npm i` and after: `npm start` </br >
+from ./backand  run: `npm i` and after: `npm run dev` </br >
+go to `http://localhost:4200` to use the app </br >
 
 </br >
 
