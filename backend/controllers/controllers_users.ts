@@ -6,10 +6,9 @@ import { User } from '@todoApp/User'
 import UsersService from '../services/users.service'
 import BackendService from "../services/backend.service";
 
-const userService = new UsersService()
-const backendService = new BackendService()
 
-let UsersTable:string = backendService.setEnvironment('users');
+
+let UsersTable:string = BackendService.setEnvironment('users');
 
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -18,7 +17,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const { name, email, password, confirm } = req.body;
 
     // registering user checks
-    const toRegister = await userService.checkRegister(name, email, password, confirm, res)
+    const toRegister = await UsersService.checkRegister(name, email, password, confirm, res)
     if (!toRegister) return
 
     // hashing password
@@ -40,7 +39,7 @@ export const loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // check login data
-    const users: User[] = await userService.checkLogin(email, password, res)
+    const users: User[] = await UsersService.checkLogin(email, password, res)
     if(!users.length) return;
 
     // check hashed password

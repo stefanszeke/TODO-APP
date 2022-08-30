@@ -8,8 +8,8 @@ import BackendService from "../services/backend.service";
 
 dotenv.config()
 
-const backendService = new BackendService()
-let TodosTable:string = backendService.setEnvironment('todos');
+
+let TodosTable:string = BackendService.setEnvironment('todos');
 
 export const getTodosByUserId = async (req: Request, res: Response) => {
   try {

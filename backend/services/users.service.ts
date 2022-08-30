@@ -3,15 +3,11 @@ import { Response } from "express";
 import { Database } from "../database/database";
 import BackendService from "./backend.service";
 
-
-const backendService = new BackendService()
-
-
-let UsersTable:string = backendService.setEnvironment("users")!;
+let UsersTable:string = BackendService.setEnvironment("users")!;
 
 export default class UsersService {
   
-  public async checkLogin(email:string, password:string, res: Response): Promise<any> {
+  public static async checkLogin(email:string, password:string, res: Response): Promise<any> {
     if (!email) return res.json({ error: "Email is required" });
     if (!password) return res.json({ error: "Password is required" });
   
@@ -23,7 +19,7 @@ export default class UsersService {
   }
 
 
-  public async checkRegister(name:string, email:string, password:string, confirm:string, res: Response): Promise<any> {
+  public static  async checkRegister(name:string, email:string, password:string, confirm:string, res: Response): Promise<any> {
     
     if (!name) {res.json({ error: "Name is required" }); return false };
 

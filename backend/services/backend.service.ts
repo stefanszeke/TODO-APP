@@ -1,7 +1,7 @@
 
 export default class BackendService {
 
-  public setEnvironment(env:string): any {
+  public static setEnvironment(env:string): any {
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production')
       if(env === 'users') return "users";
       if(env === 'todos') return "todos";
