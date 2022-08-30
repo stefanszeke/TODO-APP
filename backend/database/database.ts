@@ -29,16 +29,14 @@ export class Database {
     if (!Database.instance) {
       Database.instance = new Database();
     } 
-
     return Database.instance;
   }
 
-  useMySql(sql: string, options: any = []) {
+  public static async useMySql(sql: string, options: any = []) {
     return new Promise<any>((resolve, reject) => {
-      this.connection.query(sql, options, (error, result) => {
-        if (error) { reject(console.log(error)) };
-  
-        resolve(result)
+      Database.getInstance().connection.query(sql, options, (error, result) => {
+        if (error) reject(console.log(error))
+        else resolve(result);
       })
     })
   }

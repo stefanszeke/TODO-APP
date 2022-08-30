@@ -8,7 +8,6 @@ import BackendService from "../services/backend.service";
 
 const userService = new UsersService()
 const backendService = new BackendService()
-const database = Database.getInstance();
 
 let UsersTable:string = backendService.setEnvironment('users');
 
@@ -27,7 +26,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     // registering user
     let sqlInsert:string = `INSERT INTO ${UsersTable} (name,email,password) VALUES (?,?,?)`;
-    await database.useMySql(sqlInsert, [name, email, hashedPassword]);
+    await Database.useMySql(sqlInsert, [name, email, hashedPassword]);
 
     res.status(201).json({ message: "User created" });
     
@@ -64,7 +63,7 @@ export const deleteUserById = async (req: Request, res: Response) => {
 
     // unprotected still
     let sql:string = `DELETE FROM ${UsersTable} WHERE id = ?`;
-    await database.useMySql(sql, [req.params.id]);
+    await Database.useMySql(sql, [req.params.id]);
     res.status(200).json({ message: "User deleted" });
 
   } catch (err) {console.log(err); res.status(500).json({ message: "Something went wrong" }); }
